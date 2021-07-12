@@ -9,12 +9,21 @@ const Button = ({clickHandler, text}) => {
 }
 
 const Statistics = ({text, statistics}) => {
+
+  const sum = (statistics.good + statistics.neutral + statistics.bad);
+  const average = (statistics.good - statistics.bad) / sum;
+  const postiveFeedback = statistics.good ? statistics.good / sum * 100 + ' %' : 0 + ' %';
+
+
   return (
     <>
       <h1>{text}</h1>
       <Statistic text='good' count={statistics.good}/>
       <Statistic text='neutral' count={statistics.neutral} />
       <Statistic text='bad' count={statistics.bad} />
+      <Statistic text='all' count={sum} />
+      <Statistic text='average' count={average} />
+      <Statistic text='positive' count={postiveFeedback} />
     </>
   )
 }
