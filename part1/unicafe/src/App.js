@@ -12,21 +12,53 @@ const Statistics = ({text, statistics}) => {
 
   const sum = (statistics.good + statistics.neutral + statistics.bad);
   const average = (statistics.good - statistics.bad) / sum;
-  const postiveFeedback = statistics.good ? statistics.good / sum * 100 + ' %' : 0 + ' %';
+  const positive = statistics.good ? statistics.good / sum * 100 + ' %' : 0 + ' %';
 
-  if (statistics.good === 0 && statistics.neutral === 0 && statistics.bad === 0) {
-    return <p>No feedback given</p>
-  } else {
-    return (
-      <>
+  /* <>
         <h1>{text}</h1>
         <Statistic text='good' count={statistics.good}/>
         <Statistic text='neutral' count={statistics.neutral} />
         <Statistic text='bad' count={statistics.bad} />
         <Statistic text='all' count={sum} />
         <Statistic text='average' count={average} />
-        <Statistic text='positive' count={postiveFeedback} />
-      </>
+        <Statistic text='positive' count={positive} />
+      </> */
+
+  if (statistics.good === 0 && statistics.neutral === 0 && statistics.bad === 0) {
+    return <p>No feedback given</p>
+  } else {
+    return (
+      <div>
+        <h1>statistics</h1>
+        <table>
+          <tbody>
+            <tr>
+              <td>good</td>
+              <td>{statistics.good}</td>
+            </tr>
+            <tr>
+              <td>neutral</td>
+              <td>{statistics.neutral}</td>
+            </tr>
+            <tr>
+              <td>bad</td>
+              <td>{statistics.bad}</td>
+            </tr>
+            <tr>
+              <td>all</td>
+              <td>{sum}</td>
+            </tr>
+            <tr>
+              <td>average</td>
+              <td>{average}</td>
+            </tr>
+            <tr>
+              <td>positive</td>
+              <td>{positive}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     )
   }
 }
