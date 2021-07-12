@@ -12,7 +12,7 @@ const App = () => {
   ]
 
   const [selected, setSelected] = useState(0)
-  const [anecdoteVotes, setAnecdoteVotes] = useState([0,0,0,0,0,0,0]);
+  const [anecdoteVotes, setAnecdoteVotes] = useState(new Array(7).fill(0));
 
   const handleNextAnecdoteClick = () => {
     setSelected(Math.floor(Math.random() * anecdotes.length));
