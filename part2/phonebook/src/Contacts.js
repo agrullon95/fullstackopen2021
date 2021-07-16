@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Contact = ({ person }) => <p>{person.name} {person.phoneNumber} </p>
+const Contact = ({ person }) => <p>{person.name} {person.number} </p>
 
 const Contacts = ({ personsList, newFilter}) => {
     return (

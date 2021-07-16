@@ -1,17 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Contacts from './Contacts.js';
 import PersonForm from './PersonForm.js';
+import axios from 'axios';
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', phoneNumber: '040-123456' , id: 1 },
-    { name: 'Ada Lovelace', phoneNumber: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', phoneNumber: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', phoneNumber: '39-23-6423122', id: 4 }
-  ])
+  const [persons, setPersons] = useState([]);
   const [newFilter, setNewFilter] = useState('');
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
+
+  const personsAPI = 'http://localhost:3001/persons';
+
+
+  const fetchPersonsHook = () => {
+    axios
+      .get(personsAPI)
+      .then(response => {
+        setPersons(response.data);
+      })
+  }
+
+  useEffect(fetchPersonsHook, []);
 
   const addNewName = (e) => {
     e.preventDefault();
@@ -21,7 +30,7 @@ const App = () => {
         {
           name: newName,
           id: persons.length + 1,
-          phoneNumber: newPhoneNumber
+          number: newPhoneNumber
         }
       ));
       setNewName('');
