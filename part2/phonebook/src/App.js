@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import Contacts from './Contacts.js';
-import PersonForm from './PersonForm.js';
-import axios from 'axios';
+import Contacts from './components/Contacts.js';
+import PersonForm from './components/PersonForm.js';
+
+import phonebookService from './services/phonebookService.js';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -9,15 +10,12 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
-  const personsAPI = 'http://localhost:3001/persons';
-
-
   const fetchPersonsHook = () => {
-    axios
-      .get(personsAPI)
-      .then(response => {
-        setPersons(response.data);
-      })
+    phonebookService.getAllPhonebookEntries()
+    .then(response => {
+      setPersons(response);
+    })
+    .catch(error => console.log(error));
   }
 
   useEffect(fetchPersonsHook, []);
@@ -26,15 +24,17 @@ const App = () => {
     e.preventDefault();
     if (!persons.find(person => person.name === newName)) {
       if (newName === '' || newPhoneNumber === '') return;
-      setPersons(persons.concat(
-        {
-          name: newName,
-          id: persons.length + 1,
-          number: newPhoneNumber
-        }
-      ));
-      setNewName('');
-      setNewPhoneNumber('')
+      const newPerson = {
+        name: newName,
+        number: newPhoneNumber
+      }
+      phonebookService.addPhonebookEntry(newPerson).then(response => {
+        setPersons(persons.concat(response));
+        setNewName('');
+        setNewPhoneNumber('')
+      }).catch( error => {
+        console.log(error);
+      })
     } else {
       alert(`${newName} is already added to phonebook`);
     }
