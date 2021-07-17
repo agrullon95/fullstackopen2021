@@ -1,8 +1,6 @@
 import React from 'react';
 
 const PersonForm = ({ setNewNameInput , newName, setNewPhoneNumberInput, newPhoneNumber, addNewName}) => {
-    
-
 
     return (
         <form>

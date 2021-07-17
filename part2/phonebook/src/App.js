@@ -40,6 +40,12 @@ const App = () => {
     }
   }
 
+  const deletePhoneBookEntry = (id) => {
+    phonebookService.deletePhoneBookEntry(id).then(() => {
+      setPersons(persons.filter(person => person.id !== id))
+    }).catch(error => console.log(error));
+  }
+
   const setNewNameInput = (e) => {
     setNewName(e.target.value);
   }
@@ -71,7 +77,7 @@ const App = () => {
         addNewName={addNewName}
         />
       <h3>Numbers</h3>
-      <Contacts personsList={persons} newFilter={newFilter} />
+      <Contacts personsList={persons} newFilter={newFilter} deletePhoneBookEntry={deletePhoneBookEntry} />
     </div>
   )
 }

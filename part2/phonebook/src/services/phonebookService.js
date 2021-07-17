@@ -16,9 +16,17 @@ const addPhonebookEntry = newPersonObject => {
     });
 }
 
+const deletePhoneBookEntry = id => {
+    const request = axios.delete(`${baseUrl}/${id}`);
+    return request.then(response => {
+        return response;
+    })
+}
+
 const exportedObject = {
     getAllPhonebookEntries,
-    addPhonebookEntry
+    addPhonebookEntry,
+    deletePhoneBookEntry
 }
 
 export default exportedObject;
