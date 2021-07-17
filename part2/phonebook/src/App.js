@@ -22,7 +22,14 @@ const App = () => {
 
   const addNewName = (e) => {
     e.preventDefault();
-    if (!persons.find(person => person.name === newName)) {
+    var existingPersonEntry = persons.find(person => person.name === newName);
+    if (existingPersonEntry) {
+      const updatedPerson = {...existingPersonEntry, number: newPhoneNumber};
+      var result = window.confirm(`${existingPersonEntry.name} is already added to phonebook, replace the old number with a new one?`);
+      if (result) {
+        updatePhoneBookEntry(existingPersonEntry.id, updatedPerson);
+      }    
+    } else if (!existingPersonEntry) {
       if (newName === '' || newPhoneNumber === '') return;
       const newPerson = {
         name: newName,
@@ -40,10 +47,16 @@ const App = () => {
     }
   }
 
-  const deletePhoneBookEntry = (id) => {
+  const deletePhoneBookEntry = id => {
     phonebookService.deletePhoneBookEntry(id).then(() => {
       setPersons(persons.filter(person => person.id !== id))
     }).catch(error => console.log(error));
+  }
+
+  const updatePhoneBookEntry = (id, updatedEntry) => {
+    phonebookService.updatePhoneBookEntry(id, updatedEntry).then(() => {
+      setPersons(persons.map(person => person.id !== id ? person: updatedEntry))
+    })
   }
 
   const setNewNameInput = (e) => {
@@ -71,13 +84,17 @@ const App = () => {
       <Filter setNewFilterValue={setNewFilterValue} newFilter={newFilter} />
       <h3>Add a new</h3>
       <PersonForm setNewNameInput={setNewNameInput}
-         newName={newName}
+        newName={newName}
         setNewPhoneNumberInput={setNewPhoneNumberInput}
         newPhoneNumber={newPhoneNumber}
         addNewName={addNewName}
         />
       <h3>Numbers</h3>
-      <Contacts personsList={persons} newFilter={newFilter} deletePhoneBookEntry={deletePhoneBookEntry} />
+      <Contacts 
+        personsList={persons}
+        newFilter={newFilter} 
+        deletePhoneBookEntry={deletePhoneBookEntry}
+         />
     </div>
   )
 }

@@ -20,13 +20,21 @@ const deletePhoneBookEntry = id => {
     const request = axios.delete(`${baseUrl}/${id}`);
     return request.then(response => {
         return response;
-    })
+    });
+}
+
+const updatePhoneBookEntry = (id, updatedEntry) => {
+    const request = axios.put(`${baseUrl}/${id}`, updatedEntry);
+    return request.then(response => {
+        return response;
+    });
 }
 
 const exportedObject = {
     getAllPhonebookEntries,
     addPhonebookEntry,
-    deletePhoneBookEntry
+    deletePhoneBookEntry,
+    updatePhoneBookEntry
 }
 
 export default exportedObject;
